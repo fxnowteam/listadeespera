@@ -22,9 +22,16 @@ function pagina(div){
     $("#linklista").removeClass("active");
     $("#linkgrupos").removeClass("active");
     $("#link"+div).addClass("active");
-    /*if(div == 'lista'){
+    if(div == 'lista'){
+    	$(".logo").html("lista de cadastrados");
         $("#divlista").load("scripts/listapcts.php");
-    }*/
+    }
+    if(div == 'cadastro'){
+    	$(".logo").html("novo cadastro");
+    }
+    if(div == 'grupos'){
+    	$(".logo").html("grupos");
+    }
 }
 
 function edita(campo,id){
@@ -57,6 +64,7 @@ function buscar(){
 function desfazBusca(){
     $( "#divlista" ).load("scripts/listapcts.php");
     $(".logo").html("lista de cadastrados");
+    $('#termonomepct').val('');
 }
 
 function cadastroGrupo(){

@@ -44,7 +44,6 @@ if($_POST["incluir"] == "1"){
                                                 $contador = 0;
                                                 $sel = mysql_query("SELECT * FROM listadeespera ORDER BY urgencia DESC, id ASC") or die(mysql_error());
                                                 while($r = mysql_fetch_array($sel)){
-                                                    $contador = $contador+1;
                                                     $selPessoa = mysql_query("SELECT * FROM pessoas WHERE chave = '".$r["pessoa"]."'") or die(mysql_error());
                                                     $y = mysql_fetch_array($selPessoa);
                                                     if($r["grupo"] == ""){
