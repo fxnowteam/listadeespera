@@ -185,7 +185,7 @@ conecta();
 
                                                             <div class="form-group">
                                                                     <label for="reg_fullname" class="sr-only">telefones para contato</label>
-                                                                    <input type="text" class="form-control fone" id="fone" placeholder="telefones para contato" required>
+                                                                    <input type="text" class="form-control fone" id="fone" class="telefone" placeholder="telefones para contato" required>
                                                             </div>
 
                                                             <div class="form-group">
@@ -249,7 +249,7 @@ conecta();
             <script src="inc/mask.js"></script>
             <script type="text/javascript">
                 $(document).ready(function(){
-                       $(".fone").mask("(99) 9999-9999");
+                       $("#fone").mask("(99) 9999-9999");
                        $("#datagrupo").mask("99/99/9999");
                 });
             </script>
