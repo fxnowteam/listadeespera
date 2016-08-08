@@ -20,5 +20,71 @@ function pagina(div){
     $("#"+div).show();
     $("#linkcadastro").removeClass("active");
     $("#linklista").removeClass("active");
+    $("#linkgrupos").removeClass("active");
     $("#link"+div).addClass("active");
+    /*if(div == 'lista'){
+        $("#divlista").load("scripts/listapcts.php");
+    }*/
+}
+
+function edita(campo,id){
+    $("#"+id+"_"+campo+"pct").load("scripts/editar.php", {campo:campo, id:id});
+}
+
+function salvar(){
+    var id = $("#id").val();
+    var campo = $("#campo").val();
+    var editarcampo = $("#editarcampo").val();
+    $("#"+id+"_"+campo+"pct").load("scripts/editar.php", {campo:campo, id:id, editarcampo: editarcampo});
+}
+
+function buscar(){
+    var termonomepct = $('#termonomepct').val();
+    var termo = termonomepct.toUpperCase();
+    var div = "lista";
+    $(".logo").html("Pesquisa por: "+termo+" <a href='javascript:desfazBusca();'><i class=\"fa fa-close\"></i></a>");
+    $(".pagina").hide();
+    $("#"+div).show();
+    $("#linkcadastro").removeClass("active");
+    $("#linklista").removeClass("active");
+    $("#link"+div).addClass("active");
+    if(termo != ""){
+        $( ".linhapct" ).hide();
+        $( ".linhapct:contains("+termo+")" ).show();
+    }
+}
+
+function desfazBusca(){
+    $( "#divlista" ).load("scripts/listapcts.php");
+    $(".logo").html("lista de cadastrados");
+}
+
+function cadastroGrupo(){
+    var descricao = $("#descricaogrupo").val();
+    var data = $("#datagrupo").val();
+    $("#listagrupos").html("Salvando...");
+    $("#listagrupos").load("scripts/listagrupos.php", {descricao:descricao, data:data});
+    $("#descricaogrupo").val('');
+    $("#datagrupo").val('');
+}
+
+function excluirGrupo(id){
+    $("#listagrupos").html("Excluindo...");
+    $("#listagrupos").load("scripts/listagrupos.php", {excluir:id});
+}
+
+function chamargrupo(id){
+    $("#modal-container-249910").html("Carregando...");
+    $("#modal-container-249910").load("scripts/chamargrupo.php", {id:id});
+}
+
+function incluirEmGrupo(id){
+    var div = "lista";
+    $(".pagina").hide();
+    $("#"+div).show();
+    $("#linkcadastro").removeClass("active");
+    $("#linklista").removeClass("active");
+    $("#link"+div).addClass("active");
+    $("#divlista").html("Carregando...");
+    $("#divlista").load("scripts/listapcts.php", {id:id, incluir:1});
 }

@@ -27,11 +27,11 @@ body {
 }
 /*=== 2. Anchor Link ===*/
 a {
-  color: #aaaaaa;
+  color: #444;
   transition: all ease-in-out 200ms;
 }
 a:hover {
-  color: #333333;
+  color: #2ecc71;
   text-decoration: none;
 }
 /*=== 3. Text Outside the Box ===*/

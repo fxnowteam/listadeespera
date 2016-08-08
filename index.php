@@ -18,7 +18,7 @@ conecta();
 		<link rel="stylesheet" type="text/css" href="inc/font-awesome.css">
 		<link rel="stylesheet" type="text/css" href="inc/css.css">
 	</head>
-	<body>
+	<body onload="$('#listagrupos').load('scripts/listagrupos.php')">
             <div class="container-fluid"><br>
                     <div class="row">
                             <div class="col-md-12">
@@ -38,6 +38,9 @@ conecta();
                                                             <li id="linklista">
                                                                     <a href="#" onclick="pagina('lista')">Ver lista</a>
                                                             </li>
+                                                            <li id="linkgrupos">
+                                                                    <a href="#" onclick="pagina('grupos')">Grupos</a>
+                                                            </li>
                                                             <li class="dropdown">
                                                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relat&oacute;rios<strong class="caret"></strong></a>
                                                                     <ul class="dropdown-menu">
@@ -56,11 +59,11 @@ conecta();
                                                                     </ul>
                                                             </li>
                                                     </ul>
-                                                    <form class="navbar-form navbar-left" role="search">
+                                                    <form class="navbar-form navbar-left" role="search" onsubmit="return false;">
                                                             <div class="form-group">
-                                                                <input class="form-control" type="text" placeholder="Nome do paciente" />
+                                                                <input class="form-control" type="search" placeholder="Nome do paciente" id="termonomepct" onsearch="buscar()" />
                                                             </div> 
-                                                            <button type="submit" class="btn btn-default">
+                                                            <button type="submit" class="btn btn-default" onclick="buscar()">
                                                                     Procurar
                                                             </button>
                                                     </form>
@@ -76,7 +79,7 @@ conecta();
                     </div>
                     
                     <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" id="divlista">
                                     <table class="table table-hover table-striped">
                                             <thead>
                                                     <tr>
@@ -105,32 +108,46 @@ conecta();
                                                 $contador = 0;
                                                 $sel = mysql_query("SELECT * FROM listadeespera ORDER BY urgencia DESC, id ASC") or die(mysql_error());
                                                 while($r = mysql_fetch_array($sel)){
-                                                    $contador = $contador+1;
                                                     $selPessoa = mysql_query("SELECT * FROM pessoas WHERE chave = '".$r["pessoa"]."'") or die(mysql_error());
                                                     $y = mysql_fetch_array($selPessoa);
+                                                    if($r["grupo"] == ""){
+                                                        $contador = $contador+1;
+                                                        $style = "";
+                                                        $labelcontador = $contador;
+                                                    }else{
+                                                        $style = " style=\"display: none\"";
+                                                        $labelcontador = "j&aacute; chamado";
+                                                    }
                                                 ?>
-                                                    <tr>
+                                                    <tr class="linhapct"<?= $style ?>>
                                                             <td>
-                                                                   [ <?= $contador ?> ]
+                                                                   [ <?= $labelcontador ?> ]
                                                             </td>
                                                             <td>
                                                                     <?
                                                                     echo date("d/m/Y, H:i:s",strtotime($r["datacadastro"]));
                                                                     ?>
                                                             </td>
-                                                            <td>
-                                                                    <?= $y["nome"] ?>
+                                                            <td id="<?= $y["id"] ?>_nomepct" class="nomedopaciente">
+                                                                    <a href="javascript:;" onclick="edita('nome', <?= $y["id"] ?>)"><?= strtoupper($y["nome"]) ?></a>
                                                             </td>
-                                                            <td>
-                                                                    <?= $y["fone"] ?>
+                                                            <td id="<?= $y["id"] ?>_fonepct">
+                                                                    <a href="javascript:;" onclick="edita('fone', <?= $y["id"] ?>)"><?= $y["fone"] ?></a>
                                                             </td>
-                                                            <td>
-                                                                    <?= $r["anotacoes"] ?>
+                                                            <td id="<?= $y["id"] ?>_anotacoespct">
+                                                                    <?
+                                                                    if($r["anotacoes"] == ""){
+                                                                        $anotacao = "Nenhuma anota&ccedil;&atilde;o.";
+                                                                    }else{
+                                                                        $anotacao = $r["anotacoes"];
+                                                                    }
+                                                                    ?>
+                                                                    <a href="javascript:;" onclick="edita('anotacoes', <?= $y["id"] ?>)"><?= $anotacao ?></a>
                                                             </td>
                                                             <td>
                                                                     <?
                                                                     if($r["grupo"] == ""){
-                                                                        ?><a href="javascript:;" onclick="incluirGrupo('<?= $r["id"] ?>')" class="btn btn-success">Incluir em grupo</a><?
+                                                                        ?><a class="btn btn-success" id="modal-249910" href="#modal-container-249910" role="button" data-toggle="modal" onclick="chamargrupo('<?= $r["id"] ?>')">Incluir em grupo</a><?
                                                                     }
                                                                     ?>
                                                             </td>
@@ -168,7 +185,7 @@ conecta();
 
                                                             <div class="form-group">
                                                                     <label for="reg_fullname" class="sr-only">telefones para contato</label>
-                                                                    <input type="text" class="form-control" id="fone" placeholder="telefones para contato" required>
+                                                                    <input type="text" class="form-control fone" id="fone" placeholder="telefones para contato" required>
                                                             </div>
 
                                                             <div class="form-group">
@@ -198,6 +215,33 @@ conecta();
 
                     
                 </div>
+                <div id="grupos" class="pagina" style="display: none">
+                    <div class="text-center">
+                            <div class="logo">grupos</div>
+                            <div class="login-form-1">
+                                    <form id="register-form" class="text-left">
+                                            <div class="login-form-main-message"></div>
+                                            <div class="main-login-form">
+                                                    <div class="login-group">
+                                                            <div class="form-group">
+                                                                    <label for="descricaogrupo" class="sr-only">descri&ccedil;&atilde;o</label>
+                                                                    <input type="text" class="form-control" id="descricaogrupo" placeholder="descri&ccedil;&atilde;o" required>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                    <label for="datagrupo" class="sr-only">data</label>
+                                                                    <input type="text" class="form-control" id="datagrupo" placeholder="data">
+                                                            </div>
+                                                    </div>
+                                                <a id="modal-249909" href="#modal-container-249909" role="button" class="login-button" data-toggle="modal" onclick="cadastroGrupo()"><i class="fa fa-chevron-right" style="padding-left: 15px;"></i></a>
+                                            </div>
+                                    </form>
+                            </div>
+                    </div>
+                    <div id='listagrupos'>
+
+                    </div>
+                </div>
             </div>
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
             <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
@@ -205,10 +249,10 @@ conecta();
             <script src="inc/mask.js"></script>
             <script type="text/javascript">
                 $(document).ready(function(){
-                       $("#fone").mask("(99) 9999-9999");
+                       $(".fone").mask("(99) 9999-9999");
+                       $("#datagrupo").mask("99/99/9999");
                 });
             </script>
-            
 			<div class="modal fade" id="modal-container-249908" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -233,6 +277,35 @@ conecta();
 					</div>
 					
 				</div>
+				
+			</div>
+			<div class="modal fade" id="modal-container-249909" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                            &Cross;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								Cadastro de grupo
+							</h4>
+						</div>
+						<div class="modal-body" id="mensagem">
+                                                    Grupo cadastrado!
+						</div>
+						<div class="modal-footer">
+							 
+							<button type="button" class="btn btn-default" data-dismiss="modal">
+								Fechar
+							</button> 
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			<div class="modal fade" id="modal-container-249910" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				
 			</div>
 	</body>
