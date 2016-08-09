@@ -44,7 +44,7 @@ if($id != ""){
                                                       <div style="clear: both"></div>
                                                     </div>
                                                     <div class="form-group">
-                                                      <label class="col-md-4 control-label" for="selectbasic">Confirmar presen&ccedil;&atilde;o?</label>
+                                                      <label class="col-md-4 control-label" for="selectbasic">Confirmar presen&ccedil;a?</label>
                                                       <div class="col-md-8">
                                                         <select id="confirmado" name="selectbasic" class="form-control">
                                                             <option value="1">Sim</option>
@@ -57,6 +57,16 @@ if($id != ""){
                                                       <label class="col-md-4 control-label" for="selectbasic">Anota&ccedil;&otilde;es</label>
                                                       <div class="col-md-8">
                                                         <textarea id="anotacoes" name="selectbasic" class="form-control"><?= $f["anotacoes"] ?></textarea>
+                                                      </div>
+                                                      <div style="clear: both"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label class="col-md-4 control-label" for="selectbasic">Reincluir na lista de espera?</label>
+                                                      <div class="col-md-8">
+                                                        <select id="reincluir" name="selectbasic" class="form-control">
+                                                            <option value="0">N&atilde;o</option>
+                                                            <option value="1">Sim</option>
+                                                        </select>
                                                       </div>
                                                       <div style="clear: both"></div>
                                                     </div>

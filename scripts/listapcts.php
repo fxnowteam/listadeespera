@@ -6,7 +6,13 @@ if($_POST["incluir"] == "1"){
     $grupo = mysql_real_escape_string($_POST["grupo"]);
     $confirmado = mysql_real_escape_string($_POST["confirmado"]);
     $anotacoes = mysql_real_escape_string($_POST["anotacoes"]);
+    $reincluir = mysql_real_escape_string($_POST["reincluir"]);
     $upd = mysql_query("UPDATE listadeespera SET anotacoes = '$anotacoes', grupo = '$grupo', datachamada = '".date("Y-m-d H:i:s")."', confirmado = '$confirmado' WHERE id = '$id'") or die(mysql_error());
+    if($reincluir == 1){
+    	$sel = mysql_query("SELECT * FROM listadeespera WHERE id = '$id'") or die(mysql_error());
+    	$l = mysql_fetch_array($sel);
+    	$ins = mysql_query("INSERT INTO listadeespera (pessoa, datacadastro, urgencia, anotacoes) VALUES ('".$l["pessoa"]."', '".date("Y-m-d H:i:s")."', '".$l["urgencia"]."', '".$l["anotacoes"]." - reincluido na lista de espera.')") or die(mysql_error());
+    }
     ?>
 
 			<div class="alert alert-success alert-dismissable">

@@ -94,5 +94,9 @@ function incluirEmGrupo(id){
     $("#linklista").removeClass("active");
     $("#link"+div).addClass("active");
     $("#divlista").html("Carregando...");
-    $("#divlista").load("scripts/listapcts.php", {id:id, incluir:1});
+    var grupo = $("#grupo").val();
+    var confirmado = $("#confirmado").val();
+    var anotacoes = $("#anotacoes").val();
+    var reincluir = $("#reincluir").val();
+    $("#divlista").load("scripts/listapcts.php", {id:id, incluir:1, grupo:grupo, confirmado:confirmado, anotacoes:anotacoes, reincluir:reincluir});
 }
