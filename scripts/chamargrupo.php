@@ -19,6 +19,17 @@ if($id != ""){
 						</div>
 						<div class="modal-body" id="chamargrupo">
                                                     <div class="form-group">
+                                                      <label class="col-md-4 control-label" for="selectbasic">Telefone: </label>
+                                                      <div class="col-md-8">
+                                                        <?
+							$selfone = mysql_query("SELECT * FROM pessoas WHERE chave = '".$f["pessoa"]."'") or die(mysql_error());
+							$g = mysql_fetch_array($selfone);
+							echo $g["fone"];
+                                                        ?>
+                                                      </div>
+                                                      <div style="clear: both"></div>
+                                                    </div>
+                                                    <div class="form-group">
                                                       <label class="col-md-4 control-label" for="selectbasic">Em qual grupo este paciente ficar&aacute;?</label>
                                                       <div class="col-md-8">
                                                         <select id="grupo" name="selectbasic" class="form-control">
