@@ -57,7 +57,7 @@ if($_POST["incluir"] == "1"){
                                                 ?>
                                                     <tr class="linhapct"<?= $style ?>>
                                                             <td>
-                                                                   [ <?= $labelcontador ?> ]
+                                                                   [<?= $labelcontador ?>]
                                                             </td>
                                                             <td>
                                                                     <?
