@@ -1,4 +1,14 @@
 <?
+/**
+ * @name listadeespera
+ * @author Original by Tiago Floriano <tiagofloriano@gmail.com> <http://paico.github.io/>
+ * @author Modified by nome <email ou URI> aaaa-mm-dd hh:mm  //para os próximos que modificarem
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GNU Public License
+ *
+ * Script simples para gestão de fila de espera. 
+ * Exemplo: uma instituição faz periodicamente um curso de capacitação. Esta instituição pode usar este script para cadastrar os interessados. Sempre que um curso for concluído e for aberto um novo, pode-se cadastrar este curso no script e incluir as pessoas que estão aguardando dentro deste novo curso.
+ */
 include("inc/core.php");
 conecta();
 ?>
