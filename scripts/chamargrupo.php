@@ -39,6 +39,7 @@ if($id != ""){
                                                                 echo "<option value=\"".$h["id"]."\">".$h["descricao"]." - ".data($h["data"])."</option>";
                                                             }
                                                             ?>
+                                                            <option value=""></option>
                                                         </select>
                                                       </div>
                                                       <div style="clear: both"></div>

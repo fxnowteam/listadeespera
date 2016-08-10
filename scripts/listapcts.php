@@ -52,7 +52,7 @@ if($_POST["incluir"] == "1"){
                                                 while($r = mysql_fetch_array($sel)){
                                                     $selPessoa = mysql_query("SELECT * FROM pessoas WHERE chave = '".$r["pessoa"]."'") or die(mysql_error());
                                                     $y = mysql_fetch_array($selPessoa);
-                                                    if($r["grupo"] == ""){
+                                                    if($r["grupo"] == "" or $r["grupo"] == 0){
                                                         $contador = $contador+1;
                                                         $style = "";
                                                         $labelcontador = $contador;
@@ -90,6 +90,8 @@ if($_POST["incluir"] == "1"){
                                                                     <?
                                                                     if($r["grupo"] == ""){
                                                                         ?><a class="btn btn-success" id="modal-249910" href="#modal-container-249910" role="button" data-toggle="modal" onclick="chamargrupo('<?= $r["id"] ?>')">Incluir em grupo</a><?
+                                                                    }else{
+                                                                        ?><a class="btn btn-success" id="modal-249910" href="#modal-container-249910" role="button" data-toggle="modal" onclick="chamargrupo('<?= $r["id"] ?>')">Refazer grupo</a><?
                                                                     }
                                                                     ?>
                                                             </td>
