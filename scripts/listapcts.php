@@ -21,6 +21,12 @@ if($_POST["incluir"] == "1"){
 		</div>
     <?
 }
+if($_POST["incluir"] == "0" && $_POST["reincluir"] == 1){
+	$id = mysql_real_escape_string($_POST["id"]);
+	$sel = mysql_query("SELECT * FROM listadeespera WHERE id = '$id'") or die(mysql_error());
+	$l = mysql_fetch_array($sel);
+	$ins = mysql_query("INSERT INTO listadeespera (pessoa, datacadastro, urgencia, anotacoes, status) VALUES ('".$l["pessoa"]."', '".date("Y-m-d H:i:s")."', '".$l["urgencia"]."', '".$l["anotacoes"]." - reincluido na lista de espera.', '1')") or die(mysql_error());
+}
 
 $grupo = mysql_real_escape_string($_POST["grupo"]);
 
@@ -98,6 +104,17 @@ if($_POST["excluir"] != ""){
                                                             </td>
                                                             <td id="<?= $y["id"] ?>_nomepct">
                                                                     <a href="javascript:;" onclick="edita('nome', <?= $y["id"] ?>)"><?= strtoupper($y["nome"]) ?></a>
+                                                                    <? 
+                                                                    if($r["grupo"] != "" && $r["grupo"] != 0){
+                                                                    	$buscaNomeGrupo = mysql_query("SELECT * FROM grupos WHERE id = '".$r["grupo"]."'") or die(mysql_error());
+                                                                    	$v = mysql_fetch_array($buscaNomeGrupo);
+                                                                    	if($r["confirmado"] == 1){
+                                                                    		echo "<br><small>(chamado no grupo <b>".$v["descricao"]."</b>)</small>";
+                                                                    	}else{
+                                                                    		echo "<br><small>(chamado no grupo <b>".$v["descricao"]."</b> mas n&atilde;o confirmou presen&ccedil;a)</small>";
+                                                                    	}
+                                                                    }
+                                                                    ?>
                                                             </td>
                                                             <td id="<?= $y["id"] ?>_fonepct">
                                                                     <a href="javascript:;" onclick="edita('fone', <?= $y["id"] ?>)"><?= $y["fone"] ?></a>
@@ -124,13 +141,22 @@ if($_POST["excluir"] != ""){
 									<ul class="dropdown-menu">
 										<li>
 					                                            <?
-					                                            if($r["grupo"] == ""){
+					                                            if($r["grupo"] == "" or $r["grupo"] == 0){
 					                                                ?><a id="modal-249910" href="#modal-container-249910" role="button" data-toggle="modal" onclick="chamargrupo('<?= $r["id"] ?>')">Incluir em grupo</a><?
 					                                            }else{
 					                                                ?><a id="modal-249910" href="#modal-container-249910" role="button" data-toggle="modal" onclick="chamargrupo('<?= $r["id"] ?>')">Refazer grupo</a><?
 					                                            }
 					                                            ?>
 										</li>
+										<?
+										if(($r["grupo"] != "" && $r["grupo"] != 0) && $r["confirmado"] == 0){
+										?>
+										<li>
+											<a href="javascript:reincluirNaLista('<?= $r["id"] ?>');">Reincluir na lista</a>
+										</li>
+										<?
+										}
+										?>
 										<li>
 											<a href="javascript:excluirCadastro('<?= $r["id"] ?>', '<?= $r["grupo"] ?>');">Excluir cadastro</a>
 										</li>

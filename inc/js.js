@@ -112,6 +112,17 @@ function incluirEmGrupo(id){
     $("#divlista").load("scripts/listapcts.php", {id:id, incluir:1, grupo:grupo, confirmado:confirmado, anotacoes:anotacoes, reincluir:reincluir});
 }
 
+function reincluirNaLista(id){
+    var div = "lista";
+    $(".pagina").hide();
+    $("#"+div).show();
+    $("#linkcadastro").removeClass("active");
+    $("#linklista").removeClass("active");
+    $("#link"+div).addClass("active");
+    $("#divlista").html("Carregando...");
+    $("#divlista").load("scripts/listapcts.php", {id:id, incluir:0, reincluir:1});
+}
+
 function excluirCadastro(id,grupo){
     var div = "lista";
     $(".pagina").hide();

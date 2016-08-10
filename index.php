@@ -18,7 +18,7 @@ conecta();
 		<link rel="stylesheet" type="text/css" href="inc/font-awesome.css">
 		<link rel="stylesheet" type="text/css" href="inc/css.css">
 	</head>
-	<body onload="$('#listagrupos').load('scripts/listagrupos.php'); $('#nome').focus();">
+	<body onload="$('#lista').load('scripts/listapcts.php'); $('#listagrupos').load('scripts/listagrupos.php'); $('#nome').focus();">
             <div class="container-fluid"><br>
                     <div class="row">
                             <div class="col-md-12">
