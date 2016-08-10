@@ -194,7 +194,7 @@ conecta();
                                                             </div>
 
                                                             <div class="form-group login-group-checkbox">
-                                                                    <input type="radio" class="" id="naourgente" value="0" name="urgente">
+                                                                    <input type="radio" class="" id="naourgente" value="0" name="urgente" checked>
                                                                     <label for="naourgente">n&atilde;o urgente</label>
 
                                                                     <input type="radio" class="" id="urgente" value="1" name="urgente">
