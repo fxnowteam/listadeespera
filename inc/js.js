@@ -61,6 +61,17 @@ function buscar(){
     }
 }
 
+function listapctgrupo(nomegrupo,id){
+    var div = "lista";
+    $(".pagina").hide();
+    $("#"+div).show();
+    $(".logo").html(nomegrupo+" <a href='javascript:desfazBusca();'><i class=\"fa fa-close\"></i></a>");
+    $("#linkcadastro").removeClass("active");
+    $("#linklista").removeClass("active");
+    $("#link"+div).addClass("active");
+    $( "#divlista" ).load("scripts/listapcts.php",{grupo:id});
+}
+
 function desfazBusca(){
     $( "#divlista" ).load("scripts/listapcts.php");
     $(".logo").html("lista de cadastrados");
@@ -99,4 +110,26 @@ function incluirEmGrupo(id){
     var anotacoes = $("#anotacoes").val();
     var reincluir = $("#reincluir").val();
     $("#divlista").load("scripts/listapcts.php", {id:id, incluir:1, grupo:grupo, confirmado:confirmado, anotacoes:anotacoes, reincluir:reincluir});
+}
+
+function excluirCadastro(id,grupo){
+    var div = "lista";
+    $(".pagina").hide();
+    $("#"+div).show();
+    $("#linkcadastro").removeClass("active");
+    $("#linklista").removeClass("active");
+    $("#link"+div).addClass("active");
+    $("#divlista").html("Carregando...");
+    $("#divlista").load("scripts/listapcts.php", {excluir:id,grupo:grupo});
+}
+
+function desfazExcluirCadastro(id,grupo){
+    var div = "lista";
+    $(".pagina").hide();
+    $("#"+div).show();
+    $("#linkcadastro").removeClass("active");
+    $("#linklista").removeClass("active");
+    $("#link"+div).addClass("active");
+    $("#divlista").html("Carregando...");
+    $("#divlista").load("scripts/listapcts.php", {excluir:id, desfaz:1,grupo:grupo});
 }
